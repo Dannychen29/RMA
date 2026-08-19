@@ -14,3 +14,5 @@ logs/*
 **/*credential*
 **/*secret*
 **/*password*
+**/__pycache__/
+*.pyc
