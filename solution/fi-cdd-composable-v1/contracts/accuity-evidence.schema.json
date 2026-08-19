@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","required":["bic","entity_match","documents","cbddq_answers","audit"],"states":["MATCHED","NO_RESULT","AMBIGUOUS","ENTITY_MISMATCH","ACCESS_BLOCKED"],"minimum_cbddq_questions":["19h","49d","49e"],"rule":"No result, access failure, unread document or missing question must never be converted to No."}

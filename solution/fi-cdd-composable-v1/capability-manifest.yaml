@@ -1,0 +1,79 @@
+solution_id: SOL-FI-CDD-COMPOSABLE-001
+status: validation_pending
+scope: "Populate the field content for the two approved CDD templates; Excel-compatible review outputs are canonical presentation artifacts. EDD and final submission are excluded."
+approved_knowledge:
+  version: cdd-solution-input-v1
+  brd_sha256: C8BE6E6333B63F315340280A57A1F7853086241CD9FF686EE28BF0802FC2F08C
+canonical_intermediate: contracts/cdd-case.schema.json
+capabilities:
+  - id: CAP-01
+    type: source-adapter
+    responsibility: Read the approved XLSX or CSV roster into normalized case seeds.
+    path: capabilities/roster-reader/Read-CddRoster.ps1
+    interface: contracts/roster-record.schema.json
+    dependencies: []
+    source_contract_ids: [ST-01, FLOW-ROSTER, OBJ-ROSTER, AC-01]
+    test_command: tests/Test-RosterReader.ps1
+    status: isolated_test_passed
+    owner: CDD operations
+  - id: CAP-02
+    type: source-adapter
+    responsibility: Acquire entity, document and CBDDQ evidence from ACCUITY without deciding CDD.
+    path: capabilities/accuity-source-adapter/SKILL.md
+    interface: contracts/accuity-evidence.schema.json
+    target_runtime: runtime-adapters/opencli-cdp/adapter-contract.md
+    dependencies: [CAP-01]
+    source_contract_ids: [ST-02, ST-03, ST-04, FLOW-PORTAL, AC-01]
+    test_command: human controlled browser test with one BIC
+    status: target_runtime_poc_pending
+    owner: CDD Maker
+  - id: CAP-03
+    type: transformer
+    responsibility: Initialize and update canonical CDD cases from normalized inputs and evidence.
+    path: capabilities/case-mapper/Merge-CddEvidence.ps1
+    interface: contracts/cdd-case.schema.json
+    dependencies: [CAP-01, CAP-02]
+    source_contract_ids: [OBJ-FI, OBJ-DOCREG, OBJ-CDD, REQ-F-02]
+    test_command: tests/Test-Composition.ps1
+    status: integration_test_passed
+    owner: CDD operations
+  - id: CAP-04
+    type: validator
+    responsibility: Reject incomplete metadata and false negative risk conclusions.
+    path: capabilities/case-validator/Test-CddCase.ps1
+    interface: contracts/cdd-case.schema.json
+    dependencies: [CAP-03]
+    source_contract_ids: [REQ-F-03, REQ-NF-01, AC-04]
+    test_command: tests/Test-Validator.ps1
+    status: isolated_test_passed
+    owner: CDD control owner
+  - id: CAP-05
+    type: sink
+    responsibility: Export one 10-bank batch as two wide review tables, one bank per row, plus an explicit completion-status table.
+    path: capabilities/batch-review-exporter/Export-CddBatchReview.ps1
+    interface: contracts/cdd-case.schema.json
+    dependencies: [CAP-04]
+    source_contract_ids: [ST-10, DELIV-CDD, REQ-NF-01]
+    test_command: tests/Test-BatchExporter.ps1
+    status: integration_test_passed
+    owner: CDD operations
+  - id: CAP-06
+    type: human-task
+    responsibility: Complete only the screening, risk rating, recommendation and approval fields required by the two CDD templates.
+    path: capabilities/human-controls/task-contract.md
+    interface: contracts/human-task.schema.json
+    dependencies: [CAP-03]
+    source_contract_ids: [ST-05, ST-06, D-PROHIBIT-01, D-EDD-01, D-PEP-01, REQ-H-01]
+    test_command: participant review required
+    status: human_task
+    owner: AML/KYC owners
+  - id: CAP-07
+    type: orchestrator
+    responsibility: Sequence all roster cases, preserve resumable state, and refuse batch completion until all 10 source-grounded cases are completed.
+    path: orchestrator/Invoke-CddDraft.ps1
+    interface: contracts/run-state.schema.json
+    dependencies: [CAP-01, CAP-03, CAP-04, CAP-05]
+    source_contract_ids: [AC-01, AC-04]
+    test_command: tests/Test-Composition.ps1
+    status: revision_required_for_batch_gate
+    owner: CDD operations

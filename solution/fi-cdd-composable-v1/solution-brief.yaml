@@ -1,0 +1,30 @@
+solution_id: SOL-FI-CDD-COMPOSABLE-001
+status: confirmed
+participant_outcome: "Use the approved 10-bank roster as one batch, acquire ACCUITY/CBDDQ evidence for every bank, and deliver two completed Excel review tables with one bank per row."
+approved_knowledge:
+  version: cdd-solution-input-v1
+  brd_sha256: C8BE6E6333B63F315340280A57A1F7853086241CD9FF686EE28BF0802FC2F08C
+inputs:
+  - approved roster XLSX or CSV
+  - authorized read-only Bankers Almanac session
+  - the two controlled CDD Word templates as field definitions
+  - approved screening, geographic-risk, Vostro and risk-rating evidence when available
+outputs:
+  - CDD_BATCH_REVIEW.xlsx with CDD Checklist, CDD Risk Assessment and Batch Status sheets
+  - CSV equivalents with exactly 10 bank rows for environments where Excel automation is unavailable
+  - per-case canonical cdd-case.json and evidence retained as audit working papers, not the primary deliverable
+composition: "Independent roster, ACCUITY acquisition, mapping, validation, review export and human-control capabilities with a thin orchestrator."
+excluded: [EDD form population, automatic screening disposition, automatic acceptance or rejection, encrypted final submission]
+limitations:
+  - "Eight roster banks do not yet have source-grounded ACCUITY/OpenCLI runs; they must remain NOT_RUN and cannot be represented as completed."
+  - "The OpenCLI CDP adapter is implementation/target-environment POC pending."
+  - "GAP-005 through GAP-012 prevent final human-owned conclusions where inputs are missing."
+acceptance:
+  - "Both primary review tables contain exactly the ten roster banks, one bank per row."
+  - "The batch is complete only after every bank has source-grounded acquisition and no case remains outside COMPLETED status."
+  - "Every template field appears with a value or exact pending reason; NOT_RUN is never presented as a completed CDD."
+  - "CBDDQ 19h, 49d and 49e retain raw evidence and conservative mappings."
+  - "Missing or blocked sources never become No."
+uat_output:
+  scope: "Two source-grounded banks (BIDV and KBZ) for participant review of the batch layout and mapped fields."
+  caveat: "UAT scope validates presentation and mappings only; it does not reduce the production requirement of ten banks."

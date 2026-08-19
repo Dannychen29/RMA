@@ -1,0 +1,9 @@
+[CmdletBinding()]
+param([Parameter(Mandatory)][string]$Path)
+$ErrorActionPreference='Stop';$c=Get-Content -Raw -LiteralPath $Path|ConvertFrom-Json;$errors=@();$allowed=@('AVAILABLE','CONFIRMED','DATA_PENDING','SOURCE_UNAVAILABLE','ACCESS_BLOCKED','STALE','DECLINED','NOT_DIGITAL','NO_RESULT','ENTITY_MISMATCH','AMBIGUOUS','HUMAN_REVIEW','NOT_APPLICABLE')
+foreach($k in @('schema_version','case_id','review','input','acquisition','cbddq_answers','fields','audit')){if(-not $c.PSObject.Properties[$k]){$errors+="Missing top-level property: $k"}}
+if($c.review.type-ne'Periodic Review'-or$c.review.frequency-ne'Annual'-or$c.review.new_relationship-ne$false){$errors+='Review invariant failed.'}
+$required=@('value','status','reason','source','source_location','raw_answer','evidence_ids','checked_at','confidence','human_review_required');foreach($p in $c.fields.PSObject.Properties){foreach($m in $required){if(-not $p.Value.PSObject.Properties[$m]){$errors+="Field $($p.Name) missing $m"}};if($allowed -notcontains $p.Value.status){$errors+="Field $($p.Name) has invalid status $($p.Value.status)"};if($null -eq $p.Value.value -and [string]::IsNullOrWhiteSpace([string]$p.Value.reason)){$errors+="Field $($p.Name) has no value or reason."}}
+if($c.audit.factimize_access -eq 'UNAVAILABLE'){foreach($id in @('risk.sanctions_or_watchlist','risk.pep_hit')){$p=$c.fields.PSObject.Properties[$id];if($p -and ($p.Value.value -eq 'No' -or $p.Value.value -eq $false)){$errors+="False No while Factimize unavailable: $id"}}}
+if($c.acquisition.cbddq_status -eq 'AVAILABLE'){if($c.acquisition.cbddq_read -ne $true){$errors+='Available CBDDQ was not read.'};foreach($q in @('19h','49d','49e')){if(-not $c.cbddq_answers.PSObject.Properties[$q]){$errors+="Missing CBDDQ answer $q"}}}
+if($errors){$errors|ForEach-Object{Write-Error $_ -ErrorAction Continue};exit 1};Write-Output "VALID: $Path"

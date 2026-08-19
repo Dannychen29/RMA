@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","states":["INTAKE_CREATED","AWAITING_ACCUITY","EVIDENCE_MERGED","VALIDATED","REVIEW_RENDERED","HUMAN_REVIEW_REQUIRED","STOPPED"],"required":["run_id","case_id","state","completed_capabilities","pending_capabilities","updated_at"]}

@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","required":["task_id","case_id","owner_role","reason","required_inputs","completion_evidence","resume_capability"],"terminal_without_human":false}

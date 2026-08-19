@@ -1,0 +1,16 @@
+output/*
+!output/.gitkeep
+runs/*
+!runs/.gitkeep
+logs/*
+!logs/.gitkeep
+*.log
+*.tmp
+*.bak
+~$*
+.env
+**/cookies*
+**/*token*
+**/*credential*
+**/*secret*
+**/*password*

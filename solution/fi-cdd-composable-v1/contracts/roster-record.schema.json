@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","required":["row_id","legal_name","bic","iso2","country","source"],"properties":{"row_id":{"type":"string"},"legal_name":{"type":"string"},"bic":{"type":"string"},"iso2":{"type":["string","null"]},"country":{"type":["string","null"]},"country_risk":{"type":["string","null"]},"source":{"type":"object"}}}

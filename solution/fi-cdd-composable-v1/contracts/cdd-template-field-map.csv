@@ -1,0 +1,41 @@
+form,order,section,template_label,field_id,source_rule,brd_refs,human_boundary
+CDD_CHECKLIST,1,Review,New FI relationship,case.new_relationship,Canonical review invariant,ST-10;OBJ-CDD,deterministic
+CDD_CHECKLIST,2,Review,Periodic Review,case.review_type,Canonical review invariant,ST-10;OBJ-CDD,deterministic
+CDD_CHECKLIST,3,Review,Risk classification,case.risk_classification,Risk workbook final classification,ST-08;ST-10,human_review
+CDD_CHECKLIST,4,Basic Information,Legal Name,basic.legal_name,CBDDQ then matched ACCUITY entity,ST-02;ST-10,human_review
+CDD_CHECKLIST,5,Basic Information,Country,basic.country,Matched ACCUITY entity,ST-02;ST-10,human_review
+CDD_CHECKLIST,6,Basic Information,BIC,basic.bic,Roster then matched ACCUITY routing code,ST-02;ST-10,deterministic_then_review
+CDD_CHECKLIST,7,Basic Information,Address,basic.address,CBDDQ full legal address,ST-04;ST-10,human_review
+CDD_CHECKLIST,8,Basic Information,H.O. BIC,basic.ho_bic,Matched branch relationship,ST-02;ST-10,human_review
+CDD_CHECKLIST,9,Required documentation,Wolfsberg AML Questionnaire,documents.wolfsberg_aml_questionnaire,ACCUITY Documents and CBDDQ,ST-04;ST-10,human_review
+CDD_CHECKLIST,10,Required documentation,Banking License,documents.banking_license,ACCUITY Documents,ST-04;ST-10,human_review
+CDD_CHECKLIST,11,Required documentation,W-8BEN-E,documents.w8ben_e,ACCUITY Documents,ST-04;ST-10,human_review
+CDD_CHECKLIST,12,Required documentation,SSI,documents.ssi,ACCUITY Documents,ST-04;ST-10,human_review
+CDD_CHECKLIST,13,Required documentation,AML/CTF Policy,documents.aml_ctf_policy,ACCUITY Documents,ST-04;ST-10,human_review
+CDD_CHECKLIST,14,Risk Assessment,Sanctions or internal watch list,risk.sanctions_or_watchlist,Approved screening and internal list,ST-06;ST-10,human_only
+CDD_CHECKLIST,15,Risk Assessment,FI or parent in prohibited country,risk.prohibited_country,Approved geographic risk list,ST-06;ST-10,human_review
+CDD_CHECKLIST,16,Risk Assessment,Relationship with shell banks,risk.shell_bank_relationship,CBDDQ 49d and 49e,ST-04;ST-10,human_review
+CDD_CHECKLIST,17,Risk Assessment,Payable Through Accounts,risk.payable_through_accounts,CBDDQ 19h,ST-04;ST-10,human_review
+CDD_CHECKLIST,18,Risk Assessment,PEP hit,risk.pep_hit,Approved screening disposition,ST-05;ST-10,human_only
+CDD_CHECKLIST,19,Risk Assessment,PEP role,risk.pep_role,Confirmed PEP evidence,ST-05;ST-10,human_only
+CDD_CHECKLIST,20,Risk Assessment,PEP role suitability,risk.pep_role_suitability,AML reviewer,ST-10,human_only
+CDD_CHECKLIST,21,Risk Assessment,PEP influence,risk.pep_influence,AML reviewer,ST-10,human_only
+CDD_CHECKLIST,22,Risk Assessment,PEP risk to the Bank,risk.pep_risk_to_bank,AML reviewer,ST-10,human_only
+CDD_CHECKLIST,23,Risk Assessment,Resultant risk rating,risk.resultant_rating,Risk workbook final rating,ST-08;ST-10,human_review
+CDD_CHECKLIST,24,Recommendation,Acceptance or Rejection,recommendation.decision,Maker and Approver,ST-13,human_only
+CDD_CHECKLIST,25,Recommendation,Justification,recommendation.justification,Maker evidence-linked narrative,ST-13,human_only
+CDD_CHECKLIST,26,Recommendation,EDD reference,recommendation.edd_reference,Conditional EDD output,ST-11;ST-13,human_review
+CDD_CHECKLIST,27,Approval,Maker name,approval.maker_name,Workflow identity,ST-13,human_only
+CDD_CHECKLIST,28,Approval,Maker date,approval.maker_date,Workflow audit,ST-13,human_only
+CDD_CHECKLIST,29,Approval,Checker name,approval.checker_name,Workflow identity,ST-13,human_only
+CDD_CHECKLIST,30,Approval,Checker date,approval.checker_date,Workflow audit,ST-13,human_only
+CDD_CHECKLIST,31,Approval,Approver name,approval.approver_name,Workflow identity,ST-13,human_only
+CDD_CHECKLIST,32,Approval,Approver date,approval.approver_date,Workflow audit,ST-13,human_only
+CDD_RISK_ASSESSMENT,1,Risk Assessment,Sanctions or internal watch list,risk.sanctions_or_watchlist,Approved screening and internal list,ST-06;ST-10,human_only
+CDD_RISK_ASSESSMENT,2,Risk Assessment,FI or parent in prohibited country,risk.prohibited_country,Approved geographic risk list,ST-06;ST-10,human_review
+CDD_RISK_ASSESSMENT,3,Risk Assessment,Relationship with shell banks,risk.shell_bank_relationship,CBDDQ 49d and 49e,ST-04;ST-10,human_review
+CDD_RISK_ASSESSMENT,4,Risk Assessment,Payable Through Accounts,risk.payable_through_accounts,CBDDQ 19h,ST-04;ST-10,human_review
+CDD_RISK_ASSESSMENT,5,Risk Assessment,Is the FI one of Vostro Accounts,risk.vostro_account,Approved internal Vostro source,ST-07;ST-10,human_review
+CDD_RISK_ASSESSMENT,6,PEP persons,Name,pep.person_name,Approved key-person list,ST-05,human_only
+CDD_RISK_ASSESSMENT,7,PEP persons,Position,pep.person_position,Approved key-person list,ST-05,human_only
+CDD_RISK_ASSESSMENT,8,PEP persons,AML System result,pep.person_screening_result,Approved screening disposition,ST-05,human_only
